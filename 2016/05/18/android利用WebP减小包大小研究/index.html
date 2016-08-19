@@ -1,0 +1,569 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="android4.2.1及以后才原生支持webp,由于android4.2和4.2.x的API level都是17，所以要想直接使用webp需要在API 18以上。如果你的应用要兼容API18以下的Android设备，则需要使用libwebp.so和libwebp.jar进行webp格式转换。
+webp官方指南webp官方指南该指南详细介绍了webp是什么，工作原理，webp支持，webp转换器下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android利用WebP减小包大小研究">
+<meta property="og:url" content="http://yoursite.com/2016/05/18/android利用WebP减小包大小研究/index.html">
+<meta property="og:site_name" content="会当临绝顶，一览众山小">
+<meta property="og:description" content="android4.2.1及以后才原生支持webp,由于android4.2和4.2.x的API level都是17，所以要想直接使用webp需要在API 18以上。如果你的应用要兼容API18以下的Android设备，则需要使用libwebp.so和libwebp.jar进行webp格式转换。
+webp官方指南webp官方指南该指南详细介绍了webp是什么，工作原理，webp支持，webp转换器下">
+<meta property="og:updated_time" content="2016-05-18T07:14:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android利用WebP减小包大小研究">
+<meta name="twitter:description" content="android4.2.1及以后才原生支持webp,由于android4.2和4.2.x的API level都是17，所以要想直接使用webp需要在API 18以上。如果你的应用要兼容API18以下的Android设备，则需要使用libwebp.so和libwebp.jar进行webp格式转换。
+webp官方指南webp官方指南该指南详细介绍了webp是什么，工作原理，webp支持，webp转换器下">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/05/18/android利用WebP减小包大小研究/"/>
+
+  <title> android利用WebP减小包大小研究 | 会当临绝顶，一览众山小 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">会当临绝顶，一览众山小</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Android技术</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                android利用WebP减小包大小研究
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-05-18T09:12:19+08:00" content="2016-05-18">
+              2016-05-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>android4.2.1及以后才原生支持webp,由于android4.2和4.2.x的API level都是17，所以要想直接使用webp需要在API 18以上。<br>如果你的应用要兼容API18以下的Android设备，则需要使用libwebp.so和libwebp.jar进行webp格式转换。</p>
+<h3 id="webp官方指南"><a href="#webp官方指南" class="headerlink" title="webp官方指南"></a>webp官方指南</h3><p><a href="https://developers.google.com/speed/webp/" target="_blank" rel="external">webp官方指南</a><br>该指南详细介绍了webp是什么，工作原理，webp支持，webp转换器下载。</p>
+<h3 id="如何在windows安装cwebp-dwebp"><a href="#如何在windows安装cwebp-dwebp" class="headerlink" title="如何在windows安装cwebp,dwebp"></a>如何在windows安装cwebp,dwebp</h3><p><strong>cwebp</strong> 可把png,jpeg格式的图片转为webp格式<br><strong>dwebp</strong> 可把webp转为png,jpeg</p>
+<p><a href="https://developers.google.com/speed/webp/docs/precompiled#getting_cwebp_dwebp_and_the_webp_libraries" target="_blank" rel="external">安装说明</a><br><a href="https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html" target="_blank" rel="external">下载地址</a><br>配置环境，把安装路径配置到path路径下面，我的路径是”D:\program\libwebp-0.5.0\bin”，这样在命令行可以执行cwebp</p>
+<p>测试指令 cwebp test.png -q 75 -o out.webp</p>
+<h3 id="windows上查看WebP格式图片方法"><a href="#windows上查看WebP格式图片方法" class="headerlink" title="windows上查看WebP格式图片方法"></a>windows上查看WebP格式图片方法</h3><p>windows系统是不支持webp格式图片查看的，为了能够在windows上直接查看webp，我们需要安装WebPCodec。<br><a href="https://developers.google.com/speed/webp/docs/webp_codec?spm=5176.blog2342.yqblogcon1.9.CvHJc2#what_is_the_webp_codec_for_windows" target="_blank" rel="external">WebP Codec for Windows</a><br>按照说明下载安装即可，安装完成后你的webp格式的图片就可以项jpeg、png格式的图片一样查看了。</p>
+<h3 id="Gradle转webp"><a href="#Gradle转webp" class="headerlink" title="Gradle转webp"></a>Gradle转webp</h3><p>下面本人定义了一个task，会自动把drawabel-xhdpi目录下的图片转为webp格式，把下面的代码放到工程目录的build.gradle里面即可<br>重新打包见证奇迹的发生吧。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">task convertToWebpTask &#123;</div><div class="line">    generateWebp()</div><div class="line">&#125;</div><div class="line"><span class="function">def <span class="title">generateWebp</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">new</span> File(getProjectDir(),<span class="string">"src/main/res/drawable-xhdpi"</span>).listFiles(<span class="keyword">new</span> FileFilter() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(File pathname)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> !pathname.getName().endsWith(<span class="string">".9.png"</span>) &amp;&amp; (pathname.getName().endsWith(<span class="string">".png"</span>) || pathname.getName().endsWith(<span class="string">".jpeg"</span>))</div><div class="line">        &#125;</div><div class="line">    &#125;).each &#123; path-&gt;</div><div class="line">        convertTowebp(path)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">convertTowebp</span><span class="params">(File path)</span> </span>&#123;</div><div class="line">    def name = path.getName();</div><div class="line">    name = name.substring(<span class="number">0</span>,name.indexOf(<span class="string">"."</span>))</div><div class="line">    exec &#123;</div><div class="line">        commandLine <span class="string">'cwebp'</span>,<span class="string">"$&#123;path.getAbsolutePath()&#125;"</span>,<span class="string">'-q'</span>,<span class="string">'75'</span>, <span class="string">'-o'</span>,<span class="string">"$&#123;path.getParent()&#125;/$&#123;name&#125;.webp"</span></div><div class="line">    &#125;</div><div class="line">    path.delete()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/17/精通Android中tools命名空间/" rel="next" title="精通Android中tools命名空间">
+                <i class="fa fa-chevron-left"></i> 精通Android中tools命名空间
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/25/android由uri获取path/" rel="prev" title="android由uri获取path">
+                android由uri获取path <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+               alt="Chen Jie" />
+          <p class="site-author-name" itemprop="name">Chen Jie</p>
+          <p class="site-description motion-element" itemprop="description">天下事有难易乎？为之，则难者亦易矣，不为，则易者亦难矣。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#webp官方指南"><span class="nav-number">1.</span> <span class="nav-text">webp官方指南</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在windows安装cwebp-dwebp"><span class="nav-number">2.</span> <span class="nav-text">如何在windows安装cwebp,dwebp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows上查看WebP格式图片方法"><span class="nav-number">3.</span> <span class="nav-text">windows上查看WebP格式图片方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle转webp"><span class="nav-number">4.</span> <span class="nav-text">Gradle转webp</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jie</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

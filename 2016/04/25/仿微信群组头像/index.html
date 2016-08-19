@@ -1,0 +1,572 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="背景项目中涉及到群组聊天的功能，由于前期项目比较紧张，群组头像并没有按照群成员头像去自动生成，即类似微信群组头像的效果，今天进行一下效果优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于RxAndroid仿微信生成群组头像">
+<meta property="og:url" content="http://yoursite.com/2016/04/25/仿微信群组头像/index.html">
+<meta property="og:site_name" content="会当临绝顶，一览众山小">
+<meta property="og:description" content="背景项目中涉及到群组聊天的功能，由于前期项目比较紧张，群组头像并没有按照群成员头像去自动生成，即类似微信群组头像的效果，今天进行一下效果优化">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1424970-75eb62f2c48a4ea6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-05-06T06:28:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于RxAndroid仿微信生成群组头像">
+<meta name="twitter:description" content="背景项目中涉及到群组聊天的功能，由于前期项目比较紧张，群组头像并没有按照群成员头像去自动生成，即类似微信群组头像的效果，今天进行一下效果优化">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1424970-75eb62f2c48a4ea6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/25/仿微信群组头像/"/>
+
+  <title> 基于RxAndroid仿微信生成群组头像 | 会当临绝顶，一览众山小 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">会当临绝顶，一览众山小</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Android技术</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于RxAndroid仿微信生成群组头像
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-04-25T20:56:26+08:00" content="2016-04-25">
+              2016-04-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>项目中涉及到群组聊天的功能，由于前期项目比较紧张，群组头像并没有按照群成员头像去自动生成，即类似微信群组头像的效果，今天进行一下效果优化 <a id="more"></a> 效果如下：<br><img src="http://upload-images.jianshu.io/upload_images/1424970-75eb62f2c48a4ea6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="仿微信生成群组头像"></p>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ul>
+<li><p>基于RxAndrdoid获取群组成员头像<br> RxJava在GitHub主页上的介绍是“a library for composing asynchronous and event-based programs using observale sequences for the Java VM”。RxJava的本质可以压缩为<strong>异步</strong>这个词，Android创造的<code>AsyncTask</code>和<code>Handler</code>,其实都是为了代码更加简洁，Rxjava的优势也是简洁，但它的简洁与众不同之处在于，<strong>随着逻辑变得越来越复杂，它依然能够保持简洁。</strong></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">Observable.from(mGroupInfoModel.groupMemberModelList)</div><div class="line">             .subscribeOn(Schedulers.io())</div><div class="line">             .limit(<span class="number">9</span>)</div><div class="line">             .observeOn(Schedulers.io())</div><div class="line">             .map(<span class="keyword">new</span> Func1&lt;LSGroupMemberModel, Bitmap&gt;() &#123;</div><div class="line">                 <span class="meta">@Override</span></div><div class="line">                 <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">(LSGroupMemberModel member)</span> </span>&#123;</div><div class="line">                     <span class="keyword">return</span> ImageLoader.getInstance().loadImageSync(member.avatarUrl);</div><div class="line">                 &#125;</div><div class="line">             &#125;)</div><div class="line">             .observeOn(Schedulers.io())</div><div class="line">             .toList()</div><div class="line">             .observeOn(Schedulers.io())</div><div class="line">             .map(<span class="keyword">new</span> Func1&lt;List&lt;Bitmap&gt;, Bitmap&gt;() &#123;</div><div class="line">                 <span class="meta">@Override</span></div><div class="line">                 <span class="function"><span class="keyword">public</span> Bitmap <span class="title">call</span><span class="params">(List&lt;Bitmap&gt; bitmaps)</span> </span>&#123;</div><div class="line">                     <span class="keyword">return</span> generateGroupAvator(bitmaps);</div><div class="line">                 &#125;</div><div class="line">             &#125;)</div><div class="line">             .observeOn(AndroidSchedulers.mainThread())</div><div class="line">             .subscribe(<span class="keyword">new</span> Subscriber&lt;Bitmap&gt;() &#123;</div><div class="line">                 <span class="meta">@Override</span></div><div class="line">                 <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">                 &#125;</div><div class="line"></div><div class="line">                 <span class="meta">@Override</span></div><div class="line">                 <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">                     e.printStackTrace();</div><div class="line">                 &#125;</div><div class="line"></div><div class="line">                 <span class="meta">@Override</span></div><div class="line">                 <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Bitmap bitmap)</span> </span>&#123;</div><div class="line">                     ((ImageView) mRootView.findViewById(R.id.image1)).setImageBitmap(bitmap);</div><div class="line">                 &#125;</div><div class="line">             &#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>生成群组头像<br> 先上代码</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">generateGroupAvator</span><span class="params">(List&lt;Bitmap&gt; data)</span> </span>&#123;</div><div class="line">    <span class="keyword">switch</span> (data == <span class="keyword">null</span> ? <span class="number">0</span> : data.size()) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>: &#123;</div><div class="line">            <span class="keyword">return</span> data.get(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">2</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">2</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                canvas.drawBitmap(newBit, i % <span class="number">2</span> * widthSize, (mSize - heightSize) / <span class="number">2</span> + i / <span class="number">2</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">2</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">2</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</div><div class="line">                    canvas.drawBitmap(newBit, (mSize - widthSize) / <span class="number">2</span>, <span class="number">0</span>, <span class="keyword">null</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    canvas.drawBitmap(newBit, i / <span class="number">2</span> * widthSize, heightSize, <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">4</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">2</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">2</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                canvas.drawBitmap(newBit, i % <span class="number">2</span> * widthSize, i / <span class="number">2</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">5</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">3</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">3</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">if</span> (i &lt; <span class="number">2</span>) &#123;</div><div class="line">                    canvas.drawBitmap(newBit, widthSize / <span class="number">2</span> + i * widthSize, heightSize / <span class="number">2</span>, <span class="keyword">null</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    canvas.drawBitmap(newBit, i % <span class="number">3</span> * widthSize, heightSize / <span class="number">2</span> + heightSize, <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">6</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">3</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">3</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                canvas.drawBitmap(newBit, i % <span class="number">3</span> * widthSize, heightSize / <span class="number">2</span> + i / <span class="number">3</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">7</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">3</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">3</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</div><div class="line">                    canvas.drawBitmap(newBit, widthSize, <span class="number">0</span>, <span class="keyword">null</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    canvas.drawBitmap(newBit, (i + <span class="number">2</span>) % <span class="number">3</span> * widthSize, (i + <span class="number">2</span>) / <span class="number">3</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">8</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">3</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">3</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            canvas.drawColor(<span class="number">0xFFe1e2e3</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">if</span> (i &lt; <span class="number">2</span>) &#123;</div><div class="line">                    canvas.drawBitmap(newBit, widthSize / <span class="number">2</span> + i * widthSize, <span class="number">0</span>, <span class="keyword">null</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    canvas.drawBitmap(newBit, (i + <span class="number">1</span>) % <span class="number">3</span> * widthSize, (i + <span class="number">1</span>) / <span class="number">3</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> <span class="number">9</span>: &#123;</div><div class="line">            <span class="keyword">int</span> widthSize = mSize / <span class="number">3</span>;</div><div class="line">            <span class="keyword">int</span> heightSize = mSize / <span class="number">3</span>;</div><div class="line">            Bitmap groupAvator = Bitmap.createBitmap(mSize, mSize, Bitmap.Config.ARGB_8888);</div><div class="line">            Canvas canvas = <span class="keyword">new</span> Canvas(groupAvator);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">                Bitmap bitmap = data.get(i);</div><div class="line">                <span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(widthSize * <span class="number">1.0f</span> / width, heightSize * <span class="number">1.0f</span> / height);</div><div class="line">                Bitmap newBit = Bitmap.createBitmap(bitmap, <span class="number">0</span>, <span class="number">0</span>, bitmap.getWidth(), bitmap.getHeight(), matrix, <span class="keyword">false</span>);</div><div class="line">                canvas.drawBitmap(newBit, i % <span class="number">3</span> * widthSize, i / <span class="number">3</span> * heightSize, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            canvas.save();</div><div class="line">            canvas.restore();</div><div class="line">            <span class="keyword">return</span> groupAvator;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>实现思路<br>根据图片张数，计算出每张头像在群组头像中的尺寸，然后缩放头像，最后把缩放后的头像画到合适的位置即可。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/19/android技术聚合网站/" rel="next" title="android技术聚合网站">
+                <i class="fa fa-chevron-left"></i> android技术聚合网站
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/08/技术文章/" rel="prev" title="技术文章">
+                技术文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+               alt="Chen Jie" />
+          <p class="site-author-name" itemprop="name">Chen Jie</p>
+          <p class="site-description motion-element" itemprop="description">天下事有难易乎？为之，则难者亦易矣，不为，则易者亦难矣。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现步骤"><span class="nav-number">2.</span> <span class="nav-text">实现步骤</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jie</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

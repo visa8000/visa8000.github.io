@@ -1,0 +1,587 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="你可能注意到了tools命名空间会出现许多Google提供的阳历布局XML文件中。此命名空间在开发阶段很有用而且不会影响用户体验。它包含了帮助我们在Android Studio设计视图中渲染布局的一套方便的属性。
+有时这些巧妙的属性会节约我们的构时间。我不是说会加快构建速度，而是和UI相关的修改的构建次数会减少。
+1234&amp;lt;LinearLayout xmlns:android=&quot;http:/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="精通Android中tools命名空间">
+<meta property="og:url" content="http://yoursite.com/2016/05/17/精通Android中tools命名空间/index.html">
+<meta property="og:site_name" content="会当临绝顶，一览众山小">
+<meta property="og:description" content="你可能注意到了tools命名空间会出现许多Google提供的阳历布局XML文件中。此命名空间在开发阶段很有用而且不会影响用户体验。它包含了帮助我们在Android Studio设计视图中渲染布局的一套方便的属性。
+有时这些巧妙的属性会节约我们的构时间。我不是说会加快构建速度，而是和UI相关的修改的构建次数会减少。
+1234&amp;lt;LinearLayout xmlns:android=&quot;http:/">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/146569-a5bfdf952780ad68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-05-17T15:10:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="精通Android中tools命名空间">
+<meta name="twitter:description" content="你可能注意到了tools命名空间会出现许多Google提供的阳历布局XML文件中。此命名空间在开发阶段很有用而且不会影响用户体验。它包含了帮助我们在Android Studio设计视图中渲染布局的一套方便的属性。
+有时这些巧妙的属性会节约我们的构时间。我不是说会加快构建速度，而是和UI相关的修改的构建次数会减少。
+1234&amp;lt;LinearLayout xmlns:android=&quot;http:/">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/146569-a5bfdf952780ad68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/05/17/精通Android中tools命名空间/"/>
+
+  <title> 精通Android中tools命名空间 | 会当临绝顶，一览众山小 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">会当临绝顶，一览众山小</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Android技术</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                精通Android中tools命名空间
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T20:59:35+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>你可能注意到了tools命名空间会出现许多Google提供的阳历布局XML文件中。此命名空间在开发阶段很有用而且不会影响用户体验。它包含了<br>帮助我们在Android Studio设计视图中渲染布局的一套方便的属性。</strong></p>
+<p>有时这些巧妙的属性会节约我们的构时间。我不是说会加快构建速度，而是和UI相关的修改的构建次数会减少。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    android:layout_width=<span class="string">"match_parent"</span></div><div class="line">    android:layout_height=<span class="string">"match_parent"</span>/&gt;</div></pre></td></tr></table></figure>
+<p><em>tools</em>命名空间的<strong>URI</strong>是<code>http:/schemas.android.com/tools</code>,通常使用<code>tools</code>前缀绑定，但你也可以使用任何前缀。<br>该命名空间中的所有属性都不会影响运行时或apk的大小，他们会在Gradle打包应用时被剥离出去。<br>你可以使用Android Studio提供的快捷键快速添加tools命名空间。只需要输入<code>toolNS</code>然后按下<code>tab</code>键。</p>
+<p>值得一提的是截止到写这篇文章时，Android Studio并没有对xml语法补全支持太多，不过别担心，即使AS没有语法提示，你仍然可以复写<br><code>tools</code>属性。最简单的使用方式是：首先书写基于 <code>android:</code>命名空间的属性，然后使用<code>ctrl+c</code>复制这行，并替换它的前缀为tools。</p>
+<h3 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h3><p>当我刚做Android开发时，曾使用<code>android:text=&quot;&quot;</code>属性结合一些硬编码的假文本在<em>预览窗口</em>中查看TextView或EditText如何显示。但是<br>Lint工具会检查出硬编码字符串的问题，最后我只能去定义strings(来消除此问题），然后这样做对用户没有任何意义，这使我的.apk中包<br>含了没用的资源。<br>（解决上述问题的）技巧是使用<code>tools:text=&quot;@string&quot;</code>来在<em>预览窗口</em>中查看预填充数据。你会得到类似如下的xml代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;TextView</div><div class="line">    tools:text=<span class="string">"Mastering ToolsNs"</span></div><div class="line">    android:layout_width=<span class="string">"wrap_content"</span></div><div class="line">    android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">    /&gt;</div></pre></td></tr></table></figure></p>
+<p>使用以上代码片段，在设计时你会看到<code>TextView</code>中的文字，而在运行时将不会有该属性存在。</p>
+<h3 id="运行时和设计时的不同属性"><a href="#运行时和设计时的不同属性" class="headerlink" title="运行时和设计时的不同属性"></a>运行时和设计时的不同属性</h3><p>需要注意的是你可以同时使用<code>android</code>和<code>tools</code>命名空间。<code>tools</code>命名空间将会用在设计阶段而前者会用在运行时。<br>有时你希望在运行时开启某些特性在设计预览是关闭。Android文档展示了<code>ListView</code>的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;ListView</div><div class="line">    android:id=<span class="string">"@+id/listView"</span></div><div class="line">    android:layout_width=<span class="string">"wrap_content"</span></div><div class="line">    android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">    android:fastScrollAlwaysVisible=<span class="string">"true"</span></div><div class="line">    tools:fastScrollAlwaysVisible=<span class="string">""</span>/&gt;</div></pre></td></tr></table></figure></p>
+<p>这里你可以看到：在运行时开启了<code>fastScrollAlwaysVisible</code>功能，而在设计时关闭了它。<br>其实你可以覆盖所有已存在与<code>android</code>命名空间中的属性，但无法覆盖自定义属性。</p>
+<h3 id="在XML中指定目标API版本"><a href="#在XML中指定目标API版本" class="headerlink" title="在XML中指定目标API版本"></a>在XML中指定目标API版本</h3><p>你可以在XML中执行API级别，就想在java中使用<code>@TargetApi</code>一样。API版本可以同一个整形或它的代号指定。这将避免Lint上报版本特定XML<br>属性的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;TextView</div><div class="line">    tools:text=<span class="string">"Mastering ToolsNs"</span></div><div class="line">    android:layout_width=<span class="string">"wrap_content"</span></div><div class="line">    android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">    tools:layout_height=<span class="string">"match_parent"</span></div><div class="line">    tools:targetApi=<span class="string">"M"</span></div><div class="line">    /&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="告知Lint你的字符串是正确的"><a href="#告知Lint你的字符串是正确的" class="headerlink" title="告知Lint你的字符串是正确的"></a>告知Lint你的字符串是正确的</h3><p>由于Andoroid Studio/Lint默认语言是英语，如果你有其它语言的字符串资源，它将会显示如下的排版警告。<br>告知Lint你本地化资源的技巧：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;resources xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span> </div><div class="line">    tools:locale=<span class="string">"es"</span>/&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="在fragment和自定义视图上预览布局"><a href="#在fragment和自定义视图上预览布局" class="headerlink" title="在fragment和自定义视图上预览布局"></a>在fragment和自定义视图上预览布局</h3><p>我发现这（tools命名空间）在使用<code>Fragment</code>和自定义视图时非常有用。通过<code>tools:layout/you_layout&quot;</code>属性你可以在设置预览窗口中<br>显示一个布局。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout</div><div class="line">    xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    xmlns:tools="http://schemas.android.com/tools"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:paddingLeft="@dimen/activity_horizontal_margin"</div><div class="line">    android:paddingRight="@dimen/activity_horizontal_margin"</div><div class="line">    android:paddingTop="@dimen/activity_vertical_margin"</div><div class="line">    android:paddingBottom="@dimen/activity_vertical_margin"</div><div class="line">    tools:context=".MainActivity"</div><div class="line">    &gt;</div><div class="line"></div><div class="line">    &lt;fragment</div><div class="line">        android:name="com.alexsimo.mastertoolsnamespace.BooksFragment"</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        tools:layout="@layout/fragment_books"</div><div class="line">        /&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>上述代码使用了<code>tools:layout</code>属性来预览<code>BooksFragment</code>布局，而不用将工程运行在设备或模拟器上。<br>我没来看一下视图结构：<br>activity_main:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout</div><div class="line">    xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    xmlns:tools="http://schemas.android.com/tools"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:paddingLeft="@dimen/activity_horizontal_margin"</div><div class="line">    android:paddingRight="@dimen/activity_horizontal_margin"</div><div class="line">    android:paddingTop="@dimen/activity_vertical_margin"</div><div class="line">    android:paddingBottom="@dimen/activity_vertical_margin"</div><div class="line">    tools:context=".MainActivity"</div><div class="line">    &gt;</div><div class="line"></div><div class="line">    &lt;fragment</div><div class="line">        android:name="com.alexsimo.mastertoolsnamespace.BooksFragment"</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        tools:layout="@layout/fragment_books"</div><div class="line">        /&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>frament_book:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</div><div class="line">&lt;android.support.v7.widget.RecyclerView</div><div class="line">    xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    android:id=<span class="string">"@+id/list"</span></div><div class="line">    android:name=<span class="string">"com.alexsimo.mastertoolsnamespace.BooksFragment"</span></div><div class="line">    android:layout_width=<span class="string">"match_parent"</span></div><div class="line">    android:layout_height=<span class="string">"match_parent"</span></div><div class="line">    android:layout_marginLeft=<span class="string">"16dp"</span></div><div class="line">    android:layout_marginRight=<span class="string">"16dp"</span></div><div class="line">    app:layoutManager=<span class="string">"LinearLayoutManager"</span></div><div class="line">    tools:context=<span class="string">"com.alexsimo.mastertoolsnamespace.BooksFragment"</span></div><div class="line">    tools:listitem=<span class="string">"@layout/fragment_book_list_item"</span></div><div class="line">    /&gt;</div></pre></td></tr></table></figure></p>
+<p>fragment_book_list_item:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">              android:layout_width="wrap_content"</div><div class="line">              android:layout_height="wrap_content"</div><div class="line">              android:orientation="horizontal"</div><div class="line">              xmlns:tools="http://schemas.android.com/tools"</div><div class="line">    &gt;</div><div class="line"></div><div class="line">  &lt;ImageView</div><div class="line">      android:layout_width="150dp"</div><div class="line">      android:layout_height="150dp"</div><div class="line">      android:id="@+id/imageView"</div><div class="line">      tools:src="@android:drawable/ic_media_play"</div><div class="line">      /&gt;</div><div class="line">  &lt;LinearLayout</div><div class="line">      android:orientation="vertical"</div><div class="line">      android:layout_width="match_parent"</div><div class="line">      android:layout_height="match_parent"</div><div class="line">      &gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:id="@+id/id"</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:layout_margin="@dimen/text_margin"</div><div class="line">        android:textAppearance="?attr/textAppearanceListItem"</div><div class="line">        tools:text="My book title"</div><div class="line">        /&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:id="@+id/content"</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:layout_margin="@dimen/text_margin"</div><div class="line">        android:textAppearance="?attr/textAppearanceListItem"</div><div class="line">        tools:text="My book description"</div><div class="line">        /&gt;</div><div class="line">  &lt;/LinearLayout&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>打开<code>activity_main</code>的预览窗口，你将会看到如下界面：<br><img src="http://upload-images.jianshu.io/upload_images/146569-a5bfdf952780ad68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="预览列表项布局"><a href="#预览列表项布局" class="headerlink" title="预览列表项布局"></a>预览列表项布局</h3><p>如果你比较细心，你会看到上面xml代码片段中<code>tools:listitem=&quot;&quot;</code>一行。这在预览列表时会先说你自定义的列表项而不是默认的<br><code>@android:layotu/list_content</code>。<br>还有更多相关的属性，但是<code>RecycleView</code>没有header或footer属性（这两个属性只能用在<code>ListVIew</code>上）。这两个属性分别是<br><code>tools:listheader</code>和<code>tools:listfooter</code>。</p>
+<h3 id="带父容器上下文的视图"><a href="#带父容器上下文的视图" class="headerlink" title="带父容器上下文的视图"></a>带父容器上下文的视图</h3><p>假如你有一个自定义视图或可重用的布局通过<code>&lt;include&gt;</code>标签被用在许多地方。当设计该视图时，预览它在想要包含它的父容器中如何<br>显示将会很有帮助。<br>在上面的<code>fragment_book_list_item</code>中，如果我们添加<code>tools:showIn=&quot;@layout/activity_main&quot;</code>属性，将可以预览该列表条目如何显示<br>在activity_main中。这没有多大意义，只是为了演示这个概念。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">              android:layout_width="wrap_content"</div><div class="line">              android:layout_height="wrap_content"</div><div class="line">              android:orientation="horizontal"</div><div class="line">              xmlns:tools="http://schemas.android.com/tools"</div><div class="line">              tools:showIn="@layout/activity_main"</div><div class="line">    &gt;</div><div class="line">    &lt;!-- Remaining views removed --&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>该特性也依赖于Android Studio的版本。截止到写此文时，我使用的是Android Studiov2.1。</p>
+<h3 id="Shrink-resources"><a href="#Shrink-resources" class="headerlink" title="Shrink resources"></a>Shrink resources</h3><p>Android tools命名空间中有许多关于收缩资源的属性，比如<code>tools:shrinkMode=&quot;strict|safe&quot;</code>,<code>tools:keep=&quot;@layout/layout_card&quot;</code><br>,<code>tools:discard=&quot;@layout/unused&quot;</code>等，当我们不准备讨论他们，可以在<a href="http://tools.android.com/tech-docs/new-build-system/resource-shrinking" target="_blank" rel="external">Android Studio官方文档</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/08/技术文章/" rel="next" title="技术文章">
+                <i class="fa fa-chevron-left"></i> 技术文章
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/18/android利用WebP减小包大小研究/" rel="prev" title="android利用WebP减小包大小研究">
+                android利用WebP减小包大小研究 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+               alt="Chen Jie" />
+          <p class="site-author-name" itemprop="name">Chen Jie</p>
+          <p class="site-description motion-element" itemprop="description">天下事有难易乎？为之，则难者亦易矣，不为，则易者亦难矣。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开始使用"><span class="nav-number">1.</span> <span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时和设计时的不同属性"><span class="nav-number">2.</span> <span class="nav-text">运行时和设计时的不同属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在XML中指定目标API版本"><span class="nav-number">3.</span> <span class="nav-text">在XML中指定目标API版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#告知Lint你的字符串是正确的"><span class="nav-number">4.</span> <span class="nav-text">告知Lint你的字符串是正确的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在fragment和自定义视图上预览布局"><span class="nav-number">5.</span> <span class="nav-text">在fragment和自定义视图上预览布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预览列表项布局"><span class="nav-number">6.</span> <span class="nav-text">预览列表项布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带父容器上下文的视图"><span class="nav-number">7.</span> <span class="nav-text">带父容器上下文的视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shrink-resources"><span class="nav-number">8.</span> <span class="nav-text">Shrink resources</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jie</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
